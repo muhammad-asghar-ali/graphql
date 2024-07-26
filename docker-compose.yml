@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  arangodb:
+    image: arangodb:latest
+    container_name: arangodb
+    ports:
+      - "8529:8529"
+    environment:
+      - ARANGO_ROOT_PASSWORD=openSesame
+    volumes:
+      - arangodb_data:/var/lib/arangodb3
+
+  nodeapp:
+    build: .
+    container_name: nodeapp
+    ports:
+      - "4000:4000"
+    depends_on:
+      - arangodb
+    environment:
+      - ARANGO_DB_URL=http://arangodb:8529
+      - ARANGO_DB_NAME=_system
+      - ARANGO_DB_USER=root
+      - ARANGO_DB_PASSWORD=openSesame
+    volumes:
+      - .:/usr/src/app
+    command: ["npm", "start"]
+
+volumes:
+  arangodb_data:
