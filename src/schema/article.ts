@@ -1,6 +1,6 @@
 import { buildSchema } from "graphql";
 
-export const schema = buildSchema(`
+export const typeDefs = buildSchema(`
   type Article {
     _key: String
     title: String!
