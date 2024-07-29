@@ -1,14 +1,14 @@
 import express from "express";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
-import { schema } from "./schema/article";
-import { articleResolver } from "./resolvers";
+import { typeDefs } from "./schema/article";
+import { resolvers } from "./resolvers";
 
 const app = express();
 
 const server = new ApolloServer({
-  typeDefs: schema,
-  resolvers: articleResolver,
+  typeDefs: typeDefs,
+  resolvers: resolvers,
 });
 
 // Start Apollo Server

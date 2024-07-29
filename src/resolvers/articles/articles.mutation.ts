@@ -1,29 +1,13 @@
-import { Article, ArticleModel } from "../models";
+import { Article, ArticleModel } from "../../models";
 
-export const articleResolver = {
-  Query: {
-    async articles() {
-      try {
-        const cursor = await ArticleModel.all();
-        const articles = await cursor.all();
-        return articles;
-      } catch (error) {
-        console.error("Error fetching articles:", error);
-        throw new Error("Error fetching articles");
-      }
-    },
-    async article(_: any, { _key }: { _key: string }) {
-      try {
-        const article = await ArticleModel.document(_key);
-        return article;
-      } catch (error) {
-        console.error("Error fetching article:", error);
-        throw new Error("Error fetching article");
-      }
-    },
-  },
-
+export const articleMutation = {
   Mutation: {
+    /**
+     * create article
+     * @param _
+     * @param param1
+     * @returns
+     */
     async createArticle(_: any, { article }: { article: Article }) {
       try {
         const meta = await ArticleModel.save(article);
@@ -33,6 +17,13 @@ export const articleResolver = {
         throw new Error("Error creating article");
       }
     },
+
+    /**
+     * update article
+     * @param _
+     * @param param1
+     * @returns
+     */
     async updateArticle(
       _: any,
       { _key, article }: { _key: string; article: Article }
@@ -46,6 +37,13 @@ export const articleResolver = {
         throw new Error("Error updating article");
       }
     },
+
+    /**
+     * delete article
+     * @param _
+     * @param param1
+     * @returns
+     */
     async deleteArticle(_: any, { _key }: { _key: string }) {
       try {
         await ArticleModel.remove(_key);
